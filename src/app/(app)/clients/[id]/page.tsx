@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Edit, Mail, Phone, Globe, Download, User as UserIcon, Users } from 'lucide-react';
+import { ArrowLeft, Edit, Mail, Phone, Globe, Download, User as UserIcon, Users, Euro } from 'lucide-react';
 import Link from 'next/link';
 import {
   Table,
@@ -37,6 +37,16 @@ const interactions = [
     { id: 'int2', type: 'Call', summary: 'Discussed project requirements', date: '2023-05-05' },
     { id: 'int3', type: 'Meeting', summary: 'Presented project proposal', date: '2023-05-25' },
 ];
+
+const balance = {
+  current: 1250.75,
+  currency: 'EUR',
+  transactions: [
+    { id: 'txn1', date: '2023-06-20', description: 'Invoice #1234 Payment', amount: 2500, type: 'credit' },
+    { id: 'txn2', date: '2023-06-01', description: 'Service Charge', amount: -1249.25, type: 'debit' },
+  ],
+};
+
 
 export default function ClientDetailPage({ params }: { params: { id: string } }) {
   const getBadgeVariant = (status: string) => {
@@ -106,8 +116,9 @@ export default function ClientDetailPage({ params }: { params: { id: string } })
       </Card>
       
       <Tabs defaultValue="documents">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="documents">Documents</TabsTrigger>
+          <TabsTrigger value="balance">Balance</TabsTrigger>
           <TabsTrigger value="interactions">Interaction History</TabsTrigger>
         </TabsList>
         <TabsContent value="documents">
@@ -142,6 +153,46 @@ export default function ClientDetailPage({ params }: { params: { id: string } })
                   ))}
                 </TableBody>
               </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="balance">
+          <Card>
+            <CardHeader>
+              <CardTitle>Balance</CardTitle>
+              <CardDescription>Financial overview for {client.name}.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between p-6 rounded-lg bg-secondary">
+                 <div className="flex items-center gap-2">
+                    <Euro className="h-8 w-8 text-primary"/>
+                    <div className="text-3xl font-bold">{balance.current.toLocaleString('de-DE', { style: 'currency', currency: balance.currency })}</div>
+                 </div>
+                 <Button>Add Transaction</Button>
+              </div>
+              <div>
+                <h3 className="text-lg font-medium mb-2">Transaction History</h3>
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Date</TableHead>
+                            <TableHead>Description</TableHead>
+                            <TableHead className="text-right">Amount</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {balance.transactions.map((tx) => (
+                        <TableRow key={tx.id}>
+                            <TableCell>{tx.date}</TableCell>
+                            <TableCell>{tx.description}</TableCell>
+                            <TableCell className={`text-right font-medium ${tx.type === 'credit' ? 'text-green-600' : 'text-red-600'}`}>
+                                {tx.amount.toLocaleString('de-DE', { style: 'currency', currency: balance.currency })}
+                            </TableCell>
+                        </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
