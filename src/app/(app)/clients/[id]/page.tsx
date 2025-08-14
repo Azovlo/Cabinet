@@ -144,7 +144,7 @@ export default function ClientDetailPage({ params }: { params: { id: string } })
                       <TableCell><Badge variant={getBadgeVariant(doc.status)}>{doc.status}</Badge></TableCell>
                       <TableCell>{doc.date}</TableCell>
                       <TableCell className="text-right">
-                        <Button variant="outline" size="icon">
+                        <Button variant="ghost" size="icon">
                            <Download className="h-4 w-4" />
                            <span className="sr-only">Download PDF</span>
                         </Button>
