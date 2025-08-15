@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Edit, Mail, Phone, Globe, Download, User as UserIcon, Users, Euro } from 'lucide-react';
+import { ArrowLeft, Edit, Mail, Phone, Globe, Download, User as UserIcon, Users, Euro, Send } from 'lucide-react';
 import Link from 'next/link';
 import {
   Table,
@@ -13,6 +13,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 
 const client = {
   id: '2',
@@ -33,9 +34,11 @@ const documents = [
 ];
 
 const interactions = [
-    { id: 'int1', type: 'Email', summary: 'Initial contact and intro', date: '2023-05-01' },
-    { id: 'int2', type: 'Call', summary: 'Discussed project requirements', date: '2023-05-05' },
-    { id: 'int3', type: 'Meeting', summary: 'Presented project proposal', date: '2023-05-25' },
+    { id: 'int1', type: 'Email', summary: 'Initial contact and intro', date: '2023-05-01', from: 'employee' },
+    { id: 'int2', type: 'Call', summary: 'Discussed project requirements', date: '2023-05-05', from: 'client' },
+    { id: 'int3', type: 'Meeting', summary: 'Presented project proposal', date: '2023-05-25', from: 'employee' },
+    { id: 'int4', type: 'Message', summary: 'Can you send over the latest invoice?', date: '2023-07-01', from: 'client' },
+    { id: 'int5', type: 'Message', summary: 'Sure, I have just sent it to your email.', date: '2023-07-01', from: 'employee' },
 ];
 
 const balance = {
@@ -119,7 +122,7 @@ export default function ClientDetailPage({ params }: { params: { id: string } })
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="documents">Documents</TabsTrigger>
           <TabsTrigger value="balance">Balance</TabsTrigger>
-          <TabsTrigger value="interactions">Interaction History</TabsTrigger>
+          <TabsTrigger value="chat">Chat</TabsTrigger>
         </TabsList>
         <TabsContent value="documents">
           <Card>
@@ -196,25 +199,38 @@ export default function ClientDetailPage({ params }: { params: { id: string } })
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="interactions">
+        <TabsContent value="chat">
            <Card>
             <CardHeader>
-              <CardTitle>Interaction History</CardTitle>
-              <CardDescription>A log of all interactions with {client.name}.</CardDescription>
+              <CardTitle>Chat</CardTitle>
+              <CardDescription>Chat history with {client.name}.</CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {interactions.map(interaction => (
-                  <div key={interaction.id} className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
-                        {interaction.type === 'Email' ? <Mail className="h-5 w-5" /> : interaction.type === 'Call' ? <Phone className="h-5 w-5" /> : <Users className="h-5 w-5" />}
+            <CardContent className="flex flex-col h-[60vh]">
+              <div className="flex-grow space-y-4 overflow-y-auto pr-4">
+                {interactions.filter(i => i.type === 'Message' || i.from === 'client' || i.from === 'employee').map(interaction => (
+                  <div key={interaction.id} className={`flex items-start gap-3 ${interaction.from === 'employee' ? 'justify-end' : ''}`}>
+                    {interaction.from === 'client' && (
+                       <Avatar className="h-9 w-9 border">
+                        <AvatarImage src={client.avatarUrl} alt={client.name} data-ai-hint="company logo" />
+                        <AvatarFallback>{client.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                    )}
+                    <div className={`rounded-lg px-4 py-2 max-w-[70%] ${interaction.from === 'employee' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+                        <p className="text-sm">{interaction.summary}</p>
+                        <p className="text-xs text-right mt-1 opacity-70">{interaction.date}</p>
                     </div>
-                    <div className="pt-1">
-                        <p className="font-medium">{interaction.summary}</p>
-                        <p className="text-sm text-muted-foreground">{interaction.date}</p>
-                    </div>
+                     {interaction.from === 'employee' && (
+                       <Avatar className="h-9 w-9 border">
+                        <AvatarImage src="https://placehold.co/100x100.png" alt="Employee" data-ai-hint="profile picture" />
+                        <AvatarFallback>U</AvatarFallback>
+                      </Avatar>
+                    )}
                   </div>
                 ))}
+              </div>
+              <div className="mt-4 flex items-center gap-2 border-t pt-4">
+                  <Input placeholder="Type your message..." className="flex-grow" />
+                  <Button><Send className="h-4 w-4" /></Button>
               </div>
             </CardContent>
           </Card>

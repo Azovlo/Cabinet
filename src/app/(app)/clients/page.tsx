@@ -56,7 +56,7 @@ export default function ClientsPage() {
                 </CardDescription>
             </div>
             <Button asChild>
-            <Link href="#">
+            <Link href="/clients/new">
                 <PlusCircle />
                 Add Client
             </Link>
