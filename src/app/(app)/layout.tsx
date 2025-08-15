@@ -21,7 +21,6 @@ const navItems: { href: string; icon: LucideIcon; label: string }[] = [
   { href: '/clients', icon: Briefcase, label: 'Мой офис' },
   { href: '/documents', icon: FileText, label: 'Документы' },
   { href: '/analytics', icon: BarChart2, label: 'Аналитика' },
-  { href: '/settings', icon: Settings, label: 'Настройки' },
 ];
 
 function NavLink({
@@ -91,6 +90,18 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 </TooltipTrigger>
                 <TooltipContent side="right">Support</TooltipContent>
             </Tooltip>
+             <Tooltip>
+                <TooltipTrigger asChild>
+                    <Link
+                    href="/profile"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                    >
+                    <Settings className="h-5 w-5" />
+                    <span className="sr-only">Settings</span>
+                    </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">Settings</TooltipContent>
+            </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link href="/profile">
@@ -142,6 +153,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   >
                     <LifeBuoy className="h-5 w-5" />
                     Support
+                  </Link>
+                  <Link
+                    href="/profile"
+                    className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                  >
+                    <Settings className="h-5 w-5" />
+                    Settings
                   </Link>
                   <Link
                     href="/profile"

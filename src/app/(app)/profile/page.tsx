@@ -1,10 +1,34 @@
+'use client';
+
+import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
+import { Badge } from '@/components/ui/badge';
 
 export default function ProfilePage() {
+    const { toast } = useToast();
+    const [name, setName] = useState('User Name');
+    const [email, setEmail] = useState('user@clientdesk.ai');
+    
+    const handleSaveChanges = () => {
+        toast({
+            title: "Settings Saved",
+            description: "Your profile information has been updated.",
+        });
+    }
+
+    const handleUpdatePassword = () => {
+        toast({
+            title: "Password Updated",
+            description: "You will be logged out shortly.",
+        });
+    }
+
+
     return (
         <div className="grid gap-6">
             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
@@ -19,7 +43,7 @@ export default function ProfilePage() {
                                 <Label>Profile Picture</Label>
                                 <div className="flex items-center gap-4">
                                     <Avatar className="h-20 w-20">
-                                        <AvatarImage src="https://placehold.co/100x100" data-ai-hint="profile picture" />
+                                        <AvatarImage src="https://placehold.co/100x100.png" data-ai-hint="profile picture" />
                                         <AvatarFallback>UN</AvatarFallback>
                                     </Avatar>
                                     <div className="flex gap-2">
@@ -30,11 +54,11 @@ export default function ProfilePage() {
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="name">Full Name</Label>
-                                <Input id="name" type="text" className="w-full" defaultValue="User Name" />
+                                <Input id="name" type="text" className="w-full" value={name} onChange={(e) => setName(e.target.value)} />
                             </div>
                             <div className="grid gap-3">
                                 <Label htmlFor="email">Email</Label>
-                                <Input id="email" type="email" className="w-full" defaultValue="user@clientdesk.ai" />
+                                <Input id="email" type="email" className="w-full" value={email} onChange={(e) => setEmail(e.target.value)} />
                             </div>
                         </div>
                     </CardContent>
@@ -53,7 +77,7 @@ export default function ProfilePage() {
                             <Label htmlFor="new-password">New Password</Label>
                             <Input id="new-password" type="password" />
                         </div>
-                        <Button>Update Password</Button>
+                        <Button onClick={handleUpdatePassword}>Update Password</Button>
                     </CardContent>
                 </Card>
                  <Card>
@@ -70,7 +94,7 @@ export default function ProfilePage() {
                 </Card>
             </div>
             <div className="flex justify-start">
-                <Button>Save All Changes</Button>
+                <Button onClick={handleSaveChanges}>Save All Changes</Button>
             </div>
         </div>
     )

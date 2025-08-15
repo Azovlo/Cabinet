@@ -12,6 +12,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/logo';
 import { useRouter } from 'next/navigation';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+const employees = [
+  { name: 'Alexey Smirnov', email: 'alexey.s@clientdesk.ai' },
+  { name: 'Elena Petrova', email: 'elena.p@clientdesk.ai' },
+  { name: 'Dmitry Ivanov', email: 'dmitry.i@clientdesk.ai' },
+  { name: 'Default User', email: 'employee@clientdesk.ai' },
+];
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,20 +44,23 @@ export default function LoginPage() {
             Welcome to ClientDesk AI
           </CardTitle>
           <CardDescription>
-            Enter your credentials to access your account.
+            Select a user to simulate login.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-                defaultValue="employee@clientdesk.ai"
-              />
+              <Label htmlFor="employee">Select Employee</Label>
+               <Select defaultValue="employee@clientdesk.ai">
+                  <SelectTrigger id="employee">
+                      <SelectValue placeholder="Select an employee to log in as" />
+                  </SelectTrigger>
+                  <SelectContent>
+                      {employees.map(emp => (
+                          <SelectItem key={emp.email} value={emp.email}>{emp.name}</SelectItem>
+                      ))}
+                  </SelectContent>
+              </Select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
