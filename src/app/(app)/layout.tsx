@@ -19,10 +19,9 @@ import { Logo } from '@/components/logo';
 const navItems: { href: string; icon: LucideIcon; label: string }[] = [
   { href: '/dashboard', icon: Home, label: 'Главная' },
   { href: '/clients', icon: Briefcase, label: 'Мой офис' },
-  { href: '/analytics', icon: BarChart2, label: 'Аналитика' },
   { href: '/documents', icon: FileText, label: 'Документы' },
+  { href: '/analytics', icon: BarChart2, label: 'Аналитика' },
   { href: '/settings', icon: Settings, label: 'Настройки' },
-  { href: '/modules', icon: Folder, label: 'Модули' },
 ];
 
 function NavLink({
