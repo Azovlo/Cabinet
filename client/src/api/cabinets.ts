@@ -176,3 +176,27 @@ export const createCabinet = (data: { templateId: string; clientName: string }) 
   //   throw new Error(error?.response?.data?.error || error.message);
   // }
 }
+
+// Description: Create a new user for client access
+// Endpoint: POST /api/users/create
+// Request: { name: string, email: string, phone?: string, role: string }
+// Response: { success: boolean, message: string, userId: string }
+export const createUser = (data: { name: string; email: string; phone?: string; role: string }) => {
+  console.log('API: Creating user:', data.name, 'with email:', data.email, 'and role:', data.role)
+  // Mocking the response
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        success: true,
+        message: 'User created successfully',
+        userId: 'user_' + Math.random().toString(36).substr(2, 9)
+      });
+    }, 1500);
+  });
+  // Uncomment the below lines to make an actual API call
+  // try {
+  //   return await api.post('/api/users/create', data);
+  // } catch (error) {
+  //   throw new Error(error?.response?.data?.error || error.message);
+  // }
+}
