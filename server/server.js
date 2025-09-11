@@ -16,8 +16,8 @@ if (!process.env.DATABASE_URL) {
 }
 
 const app = express();
-const port = process.env.PORT || 5000;
 const isProduction = process.env.NODE_ENV === 'production';
+const port = process.env.PORT || (isProduction ? 5000 : 3000);
 
 // Pretty-print JSON responses
 app.enable('json spaces');
