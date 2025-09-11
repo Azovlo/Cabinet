@@ -1,32 +1,38 @@
-import { Home, Users, BarChart3, Settings, CreditCard, Package, MessageSquare, Building2, FileText, Calendar, Phone } from "lucide-react"
+import { Home, Users, BarChart3, Settings, CreditCard, Package, Building2 } from "lucide-react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { cn } from "@/lib/utils"
-import { Button } from "./ui/button"
 import { Badge } from "./ui/badge"
 import { Separator } from "./ui/separator"
 import { SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, Sidebar as SidebarPrimitive } from "./ui/sidebar"
 import { memo, useCallback, useMemo } from "react"
 
-const navigation = [
+interface NavigationItem {
+  name: string
+  href: string
+  icon: any
+  badge?: string
+}
+
+const navigation: NavigationItem[] = [
   { name: 'Dashboard', href: '/', icon: Home },
   { name: 'Tariffs', href: '/tariffs', icon: CreditCard, badge: 'New' },
 ]
 
-const officeNavigation = [
+const officeNavigation: NavigationItem[] = [
   { name: 'My Office', href: '/office', icon: Building2 },
 ]
 
-const analyticsNavigation = [
+const analyticsNavigation: NavigationItem[] = [
   { name: 'Analytics', href: '/analytics', icon: BarChart3 },
 ]
 
-const modulesNavigation = [
+const modulesNavigation: NavigationItem[] = [
   { name: 'CRM System', href: '/crm', icon: Users },
   { name: 'Cabinets', href: '/cabinets', icon: Package },
   { name: 'Modules', href: '/modules', icon: Package },
 ]
 
-const settingsNavigation = [
+const settingsNavigation: NavigationItem[] = [
   { name: 'Settings', href: '/settings', icon: Settings },
   { name: 'Payments', href: '/payments', icon: CreditCard },
 ]
