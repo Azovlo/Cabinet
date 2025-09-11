@@ -10,7 +10,8 @@ export default defineConfig({
     },
   },
   server: {
-    host: true,
+    host: "0.0.0.0",
+    port: 5000,
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
@@ -21,10 +22,7 @@ export default defineConfig({
         changeOrigin: true,
       }
     },
-    allowedHosts: [
-      'localhost',
-      '.pythagora.ai'
-    ],
+    allowedHosts: true,
     watch: {
       ignored: ['**/node_modules/**', '**/dist/**', '**/public/**', '**/log/**']
     }
