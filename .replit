@@ -40,3 +40,8 @@ externalPort = 80
 [[ports]]
 localPort = 43505
 externalPort = 3001
+
+[deployment]
+deploymentTarget = "vm"
+build = ["bash", "-c", "cd client && npm run build"]
+run = ["bash", "-c", "cd server && NODE_ENV=production node server.js"]
